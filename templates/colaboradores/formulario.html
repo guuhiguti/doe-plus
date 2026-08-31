@@ -1,0 +1,63 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}{{ 'Editar colaborador' if collaborator else 'Novo colaborador' }} - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="h3 mb-4">{{ 'Editar colaborador' if collaborator else 'Novo colaborador' }}</h1>
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" name="name" class="form-control" value="{{ collaborator.name if collaborator else '' }}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" name="email" class="form-control" value="{{ collaborator.email if collaborator else '' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Telefone</label>
+          <input type="text" name="phone" class="form-control" value="{{ collaborator.phone if collaborator else '' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Área / disponibilidade</label>
+          <input type="text" name="area" class="form-control" placeholder="Ex: logística, transporte, finais de semana" value="{{ collaborator.area if collaborator else '' }}">
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <a href="{{ url_for('colaboradores.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+      </form>
+
+      {% if collaborator %}
+      <hr class="my-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 fw-bold mb-0">Ofertas</h2>
+        <a href="{{ url_for('colaboradores.nova_oferta', collaborator_id=collaborator.id) }}" class="btn btn-sm btn-outline-primary">+ Nova oferta</a>
+      </div>
+      {% if ofertas %}
+      <ul class="list-group">
+        {% for oferta in ofertas %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span>
+            {% if oferta.offer_type == 'item' %}
+              {{ oferta.item.category }} — {{ oferta.item.name }} <span class="text-muted small">(qtd. {{ oferta.quantity }})</span>
+            {% else %}
+              Tempo voluntário <span class="text-muted small">{{ oferta.notes or '' }}</span>
+            {% endif %}
+          </span>
+          <span class="badge {{ 'bg-success' if oferta.status == 'utilizada' else 'bg-secondary' }}">{{ oferta.status | capitalize }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">Nenhuma oferta registrada ainda.</p>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

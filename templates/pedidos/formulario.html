@@ -1,0 +1,56 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}{{ 'Editar pedido' if help_request else 'Novo pedido' }} - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="h3 mb-4">{{ 'Editar pedido de ajuda' if help_request else 'Novo pedido de ajuda' }}</h1>
+
+      {% if not por_categoria %}
+      <div class="alert alert-warning">
+        Seu catálogo de itens está vazio. <a href="{{ url_for('itens.novo') }}">Cadastre um item</a> antes de criar um pedido.
+      </div>
+      {% endif %}
+
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Nome do solicitante</label>
+          <input type="text" name="requester_name" class="form-control" value="{{ help_request.requester_name if help_request else '' }}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contato (telefone ou e-mail)</label>
+          <input type="text" name="contact" class="form-control" value="{{ help_request.contact if help_request else '' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Item</label>
+          <select name="item_id" class="form-select" required>
+            {% for categoria, items in por_categoria.items() %}
+            <optgroup label="{{ categoria }}">
+              {% for item in items %}
+              <option value="{{ item.id }}" {{ 'selected' if help_request and help_request.item_id == item.id else '' }}>{{ item.name }}</option>
+              {% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Quantidade</label>
+          <input type="number" name="quantity" class="form-control" min="1" value="{{ help_request.quantity if help_request else 1 }}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Detalhes adicionais (opcional)</label>
+          <textarea name="description" class="form-control" rows="3">{{ help_request.description if help_request else '' }}</textarea>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <a href="{{ url_for('pedidos.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

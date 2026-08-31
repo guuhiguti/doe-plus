@@ -1,0 +1,60 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Pedidos de ajuda - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Pedidos de ajuda</h1>
+    <a href="{{ url_for('pedidos.novo') }}" class="btn btn-primary">+ Novo pedido</a>
+  </div>
+
+  {% if help_requests %}
+  <div class="table-responsive soft-card p-0">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Solicitante</th>
+          <th>Item</th>
+          <th>Qtd.</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in help_requests %}
+        <tr>
+          <td>{{ p.requester_name }}</td>
+          <td>{{ p.item.category }} — {{ p.item.name }}</td>
+          <td>{{ p.quantity }}</td>
+          <td>
+            <span class="badge {{ 'bg-success' if p.status == 'atendido' else 'bg-warning text-dark' }}">
+              {{ p.status | capitalize }}
+            </span>
+          </td>
+          <td class="text-end">
+            <form method="post" action="{{ url_for('pedidos.alternar_status', help_request_id=p.id) }}" class="d-inline">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-success">
+                {{ 'Marcar pendente' if p.status == 'atendido' else 'Marcar atendido' }}
+              </button>
+            </form>
+            <a href="{{ url_for('pedidos.editar', help_request_id=p.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+            <form method="post" action="{{ url_for('pedidos.excluir', help_request_id=p.id) }}" class="d-inline" onsubmit="return confirm('Remover este pedido?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="soft-card text-center text-muted">
+    Nenhum pedido de ajuda registrado ainda.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

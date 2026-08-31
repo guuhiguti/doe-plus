@@ -1,0 +1,67 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Relatório - Doe+{% endblock %}
+
+{% block dashboard_content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4 d-print-none">
+    <h1 class="h3 mb-0">Relatório</h1>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('relatorios.csv_export', tipo='colaboradores') }}" class="btn btn-outline-primary">Exportar colaboradores (CSV)</a>
+      <a href="{{ url_for('relatorios.csv_export', tipo='pedidos') }}" class="btn btn-outline-primary">Exportar pedidos (CSV)</a>
+      <button onclick="window.print()" class="btn btn-primary">Imprimir / salvar PDF</button>
+    </div>
+  </div>
+
+  <p class="text-muted">Gerado em {{ gerado_em.strftime('%d/%m/%Y %H:%M') }} UTC — {{ current_user.organization.name }}</p>
+
+  <div class="row g-3 mb-5">
+    <div class="col-md-4">
+      <div class="soft-card text-center">
+        <p class="text-muted mb-1">Colaboradores</p>
+        <p class="display-6 fw-bold mb-0">{{ collaborators | length }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="soft-card text-center">
+        <p class="text-muted mb-1">Pedidos pendentes</p>
+        <p class="display-6 fw-bold mb-0">{{ pendentes }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="soft-card text-center">
+        <p class="text-muted mb-1">Pedidos atendidos</p>
+        <p class="display-6 fw-bold mb-0">{{ atendidos }}</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h5 fw-bold mb-3">Colaboradores</h2>
+  <table class="table table-sm mb-5">
+    <thead>
+      <tr><th>Nome</th><th>E-mail</th><th>Telefone</th><th>Área</th></tr>
+    </thead>
+    <tbody>
+      {% for c in collaborators %}
+      <tr><td>{{ c.name }}</td><td>{{ c.email or '-' }}</td><td>{{ c.phone or '-' }}</td><td>{{ c.area or '-' }}</td></tr>
+      {% else %}
+      <tr><td colspan="4" class="text-muted">Nenhum colaborador cadastrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2 class="h5 fw-bold mb-3">Pedidos de ajuda</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr><th>Solicitante</th><th>Item</th><th>Qtd.</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      {% for p in help_requests %}
+      <tr><td>{{ p.requester_name }}</td><td>{{ p.item.category }} — {{ p.item.name }}</td><td>{{ p.quantity }}</td><td>{{ p.status | capitalize }}</td></tr>
+      {% else %}
+      <tr><td colspan="4" class="text-muted">Nenhum pedido registrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

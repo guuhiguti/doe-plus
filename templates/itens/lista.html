@@ -1,0 +1,35 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Catálogo de itens - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Catálogo de itens</h1>
+    <a href="{{ url_for('itens.novo') }}" class="btn btn-primary">+ Novo item</a>
+  </div>
+  <p class="text-muted">Esses são os itens que aparecem nos formulários de pedido de ajuda e de oferta de colaboradores — usados para cruzar quem precisa com quem pode doar.</p>
+
+  {% if por_categoria %}
+  {% for categoria, items in por_categoria.items() %}
+  <div class="soft-card mb-3">
+    <h2 class="h6 fw-bold mb-3">{{ categoria }}</h2>
+    <ul class="list-group list-group-flush">
+      {% for item in items %}
+      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+        {{ item.name }}
+        <form method="post" action="{{ url_for('itens.excluir', item_id=item.id) }}" onsubmit="return confirm('Remover este item do catálogo?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+  {% else %}
+  <div class="soft-card text-center text-muted">Nenhum item cadastrado ainda.</div>
+  {% endif %}
+</div>
+{% endblock %}

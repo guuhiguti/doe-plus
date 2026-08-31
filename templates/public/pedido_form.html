@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% from "_macros.html" import logo_icon with context %}
+
+{% block title %}Pedido de ajuda - {{ organization.name }}{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      {{ logo_icon(40) }}
+    </a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row justify-content-center py-5">
+    <div class="col-md-6">
+      <p class="text-muted mb-1">Formulário de pedido de ajuda para</p>
+      <h1 class="h3 fw-bold mb-4">{{ organization.name }}</h1>
+
+      {% if erro %}
+      <div class="alert alert-danger">{{ erro }}</div>
+      {% endif %}
+
+      <div class="soft-card mb-4">
+        <h2 class="h6 fw-bold">Uso dos seus dados</h2>
+        <p class="text-muted small mb-0">
+          Os dados preenchidos abaixo serão utilizados exclusivamente por <strong>{{ organization.name }}</strong> para
+          identificar e atender necessidades. Seus dados não serão compartilhados com terceiros sem o seu consentimento.
+        </p>
+      </div>
+
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Seu nome</label>
+          <input type="text" name="requester_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contato (telefone ou e-mail)</label>
+          <input type="text" name="contact" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Item</label>
+          <select name="item_id" class="form-select" required>
+            {% for categoria, items in por_categoria.items() %}
+            <optgroup label="{{ categoria }}">
+              {% for item in items %}
+              <option value="{{ item.id }}">{{ item.name }}</option>
+              {% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Quantidade</label>
+          <input type="number" name="quantity" class="form-control" min="1" value="1" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Detalhes adicionais (opcional)</label>
+          <textarea name="description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="form-check mb-4">
+          <input type="checkbox" name="consentimento" class="form-check-input" id="consentimento" required>
+          <label class="form-check-label small" for="consentimento">
+            Li e concordo com o uso dos meus dados conforme descrito acima.
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Enviar pedido</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

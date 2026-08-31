@@ -1,0 +1,76 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Configurações - Doe+{% endblock %}
+
+{% block dashboard_content %}
+<div class="container py-5">
+  <h1 class="h3 mb-4">Configurações</h1>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="soft-card h-100">
+        <h2 class="h6 fw-bold">Formulário público de colaboradores</h2>
+        <p class="text-muted small">Compartilhe este link para receber cadastros de colaboradores.</p>
+        <div class="input-group mb-2">
+          <input type="text" class="form-control form-control-sm" value="{{ link_colaborador }}" id="link-colaborador" readonly>
+          <button class="btn btn-sm btn-outline-primary" type="button" onclick="copiarLink('link-colaborador')">Copiar</button>
+        </div>
+        <form method="post" action="{{ url_for('colaboradores.regenerar_link') }}" onsubmit="return confirm('O link atual deixará de funcionar. Continuar?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-sm btn-outline-secondary">Gerar novo link</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="soft-card h-100">
+        <h2 class="h6 fw-bold">Formulário público de pedidos de ajuda</h2>
+        <p class="text-muted small">Compartilhe este link para receber pedidos de ajuda.</p>
+        <div class="input-group mb-2">
+          <input type="text" class="form-control form-control-sm" value="{{ link_pedido }}" id="link-pedido" readonly>
+          <button class="btn btn-sm btn-outline-primary" type="button" onclick="copiarLink('link-pedido')">Copiar</button>
+        </div>
+        <form method="post" action="{{ url_for('pedidos.regenerar_link') }}" onsubmit="return confirm('O link atual deixará de funcionar. Continuar?');">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="btn btn-sm btn-outline-secondary">Gerar novo link</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="soft-card d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="h6 fw-bold mb-1">Cruzamento automático</h2>
+      <p class="text-muted small mb-0">Quando ligado, pedidos e ofertas do mesmo item são confirmados automaticamente, sem precisar de confirmação manual em "Cruzamentos".</p>
+    </div>
+    <form method="post" action="{{ url_for('matches.alternar_auto_match') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" class="btn {{ 'btn-primary' if organization.auto_match_enabled else 'btn-outline-primary' }}">
+        {{ 'Ligado' if organization.auto_match_enabled else 'Desligado' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="soft-card d-flex justify-content-between align-items-center">
+    <div>
+      <h2 class="h6 fw-bold mb-1">Tema</h2>
+      <p class="text-muted small mb-0">Escolha entre o tema claro e o escuro para o painel.</p>
+    </div>
+    <form method="post" action="{{ url_for('main.alternar_tema') }}" class="btn-group">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" name="tema" value="claro" class="btn {{ 'btn-primary' if current_user.theme == 'claro' else 'btn-outline-primary' }}">Claro</button>
+    </form>
+    <form method="post" action="{{ url_for('main.alternar_tema') }}" class="btn-group ms-2">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" name="tema" value="escuro" class="btn {{ 'btn-primary' if current_user.theme == 'escuro' else 'btn-outline-primary' }}">Escuro</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function copiarLink(id) {
+  const input = document.getElementById(id);
+  input.select();
+  navigator.clipboard.writeText(input.value);
+}
+</script>
+{% endblock %}

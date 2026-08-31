@@ -1,0 +1,62 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Nova oferta - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="h3 mb-1">Nova oferta</h1>
+      <p class="text-muted mb-4">Registrar o que {{ collaborator.name }} vai doar/ajudar (útil para doações recebidas em mãos, sem passar pelo formulário público).</p>
+
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Tipo de oferta</label>
+          <select name="offer_type" class="form-select" id="offer_type" onchange="alternarTipo()">
+            <option value="item">Item para doação</option>
+            <option value="tempo_voluntario">Tempo voluntário</option>
+          </select>
+        </div>
+
+        <div id="campos-item">
+          <div class="mb-3">
+            <label class="form-label">Item</label>
+            <select name="item_id" class="form-select">
+              {% for categoria, items in por_categoria.items() %}
+              <optgroup label="{{ categoria }}">
+                {% for item in items %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+                {% endfor %}
+              </optgroup>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantidade</label>
+            <input type="number" name="quantity" class="form-control" min="1" value="1">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Observações (opcional)</label>
+          <textarea name="notes" class="form-control" rows="3" placeholder="Ex: disponível aos sábados de manhã"></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <a href="{{ url_for('colaboradores.editar', collaborator_id=collaborator.id) }}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function alternarTipo() {
+  const tipo = document.getElementById('offer_type').value;
+  document.getElementById('campos-item').style.display = tipo === 'item' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Cruzamentos - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Cruzamentos</h1>
+    <a href="{{ url_for('main.configuracoes') }}" class="btn btn-sm {{ 'btn-primary' if current_user.organization.auto_match_enabled else 'btn-outline-secondary' }}">
+      Confirmação automática: {{ 'ligada' if current_user.organization.auto_match_enabled else 'desligada' }}
+    </a>
+  </div>
+  <p class="text-muted">Pedidos pendentes que têm uma oferta disponível do mesmo item cadastrada por um colaborador.</p>
+
+  {% if sugestoes %}
+  <div class="table-responsive soft-card p-0">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Item</th>
+          <th>Oferta compatível</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pedido, oferta in sugestoes %}
+        <tr>
+          <td>{{ pedido.requester_name }} <span class="text-muted small">(qtd. {{ pedido.quantity }})</span></td>
+          <td>{{ pedido.item.category }} — {{ pedido.item.name }}</td>
+          <td>{{ oferta.collaborator.name }} <span class="text-muted small">(qtd. {{ oferta.quantity or '-' }})</span></td>
+          <td class="text-end">
+            <form method="post" action="{{ url_for('matches.confirmar') }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input type="hidden" name="help_request_id" value="{{ pedido.id }}">
+              <input type="hidden" name="offer_id" value="{{ oferta.id }}">
+              <button type="submit" class="btn btn-sm btn-primary">Confirmar match</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="soft-card text-center text-muted">Nenhuma sugestão de cruzamento no momento.</div>
+  {% endif %}
+</div>
+{% endblock %}

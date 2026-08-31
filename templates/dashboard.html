@@ -1,0 +1,152 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Dashboard - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container-fluid py-4 px-4">
+  <h1 class="h3 mb-1">Olá, {{ current_user.name }}</h1>
+  <p class="text-muted mb-4">{{ current_user.organization.name }}</p>
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div class="period-filter">
+      {% for chave, rotulo in periodo_labels.items() %}
+        {% if chave != 'personalizado' %}
+        <a href="{{ url_for('main.dashboard', periodo=chave) }}" class="btn {{ 'btn-primary' if periodo == chave else 'btn-outline-secondary' }}">{{ rotulo }}</a>
+        {% endif %}
+      {% endfor %}
+      <button type="button" class="btn {{ 'btn-primary' if periodo == 'personalizado' else 'btn-outline-secondary' }}" data-bs-toggle="collapse" data-bs-target="#periodo-personalizado">
+        Personalizado
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse {{ 'show' if periodo == 'personalizado' else '' }} mb-4" id="periodo-personalizado">
+    <form method="get" action="{{ url_for('main.dashboard') }}" class="d-flex flex-wrap align-items-end gap-2 soft-card py-3">
+      <input type="hidden" name="periodo" value="personalizado">
+      <div>
+        <label class="form-label small mb-1">De</label>
+        <input type="date" name="inicio" class="form-control form-control-sm" value="{{ inicio.strftime('%Y-%m-%d') }}">
+      </div>
+      <div>
+        <label class="form-label small mb-1">Até</label>
+        <input type="date" name="fim" class="form-control form-control-sm" value="{{ fim.strftime('%Y-%m-%d') }}">
+      </div>
+      <button type="submit" class="btn btn-sm btn-primary">Aplicar</button>
+    </form>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+      <div class="soft-card">
+        <p class="stat-tile-label mb-0">Novos colaboradores</p>
+        <p class="stat-tile-value mb-0">{{ stats.colaboradores_total }}</p>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card">
+        <p class="stat-tile-label mb-0">Pedidos pendentes</p>
+        <p class="stat-tile-value mb-0">{{ stats.pendentes }}</p>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card">
+        <p class="stat-tile-label mb-0">Pedidos atendidos</p>
+        <p class="stat-tile-value mb-0">{{ stats.atendidos }}</p>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="soft-card">
+        <p class="stat-tile-label mb-0">Taxa de atendimento</p>
+        <p class="stat-tile-value mb-0">{{ stats.taxa_atendimento }}%</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-lg-6">
+      <div class="soft-card h-100">
+        <h2 class="h6 fw-bold mb-3">Itens mais pedidos</h2>
+        {% if stats.itens_ranking %}
+        {% for item in stats.itens_ranking %}
+        <div class="chart-hbar-row">
+          <div class="chart-hbar-label">{{ item.nome }}</div>
+          <div class="chart-hbar-track">
+            <div class="chart-hbar-fill" style="width: {{ (item.quantidade / stats.max_item_quantidade * 100) | round(1) }}%">
+              <span class="chart-hbar-value">{{ item.quantidade }}</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="text-muted mb-0">Nenhum pedido no período selecionado.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="soft-card h-100">
+        <h2 class="h6 fw-bold mb-3">Pedidos ao longo do período</h2>
+        {% if stats.serie_temporal %}
+        <div class="chart-cols">
+          {% for ponto in stats.serie_temporal %}
+          <div class="chart-col">
+            <div class="chart-col-bar" style="height: {{ (ponto.quantidade / stats.max_serie_quantidade * 100) | round(1) }}%" data-tooltip="{{ ponto.quantidade }}"></div>
+            <span class="chart-col-label">{{ ponto.label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">Nenhum pedido no período selecionado.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="soft-card mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+      <h2 class="h6 fw-bold mb-1">Cruzamentos</h2>
+      <p class="text-muted small mb-0">{{ total_sugestoes }} sugestão(ões) de match aguardando confirmação.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('matches.listar') }}" class="btn btn-outline-primary">Ver cruzamentos</a>
+      <a href="{{ url_for('relatorios.relatorio') }}" class="btn btn-primary">Criar relatório</a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h6 fw-bold mb-0">Colaboradores recentes</h2>
+        <a href="{{ url_for('colaboradores.listar') }}" class="small">Ver todos</a>
+      </div>
+      {% if colaboradores_recentes %}
+      <ul class="list-group">
+        {% for c in colaboradores_recentes %}
+        <li class="list-group-item">{{ c.name }} <span class="text-muted small">— {{ c.area or 'sem área definida' }}</span></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">Nenhum colaborador cadastrado ainda.</p>
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h6 fw-bold mb-0">Pedidos recentes</h2>
+        <a href="{{ url_for('pedidos.listar') }}" class="small">Ver todos</a>
+      </div>
+      {% if pedidos_recentes %}
+      <ul class="list-group">
+        {% for p in pedidos_recentes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ p.requester_name }} <span class="text-muted small">— {{ p.item.name }}</span>
+          <span class="badge {{ 'bg-success' if p.status == 'atendido' else 'bg-warning text-dark' }}">{{ p.status | capitalize }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">Nenhum pedido registrado ainda.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

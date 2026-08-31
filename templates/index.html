@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+{% from "_macros.html" import logo_icon with context %}
+
+{% block title %}Doe+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      {{ logo_icon(46) }}
+    </a>
+    <a href="/auth/login" class="btn btn-primary btn-lg">Acessar plataforma</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero-gradient section-full position-relative">
+  <div class="container">
+    <div class="row justify-content-center text-center py-5">
+      <div class="col-lg-8">
+        <span class="badge rounded-pill text-bg-light border mb-3 px-3 py-2">Gestão de doações</span>
+        <h1 class="display-3 fw-bold mb-3">Conectando doações a quem mais precisa</h1>
+        <p class="fs-4 text-muted mb-4">O Doe+ facilita a gestão de doações e conecta organizações, colaboradores e famílias de forma mais eficiente, transparente e organizada.</p>
+        <div class="d-flex gap-3 justify-content-center mb-5">
+          <a href="#solucao" class="btn btn-outline-primary btn-lg">Conhecer o Doe+</a>
+          <a href="/auth/login" class="btn btn-primary btn-lg">Entrar no sistema</a>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="mockup-frame bg-white">
+          <div class="mockup-topbar">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="p-4 p-lg-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5">Dashboard</span>
+              <span class="badge bg-brand-navy px-3 py-2">Doe+</span>
+            </div>
+            <div class="row g-3 mb-4">
+              <div class="col-4">
+                <div class="bg-brand-tint bg-opacity-50 rounded-4 p-3">
+                  <div class="bg-white bg-opacity-75 rounded-pill" style="height:.5rem;width:60%"></div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded-4 p-3">
+                  <div class="bg-white rounded-pill" style="height:.5rem;width:70%"></div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="bg-light rounded-4 p-3">
+                  <div class="bg-white rounded-pill" style="height:.5rem;width:45%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-2 bg-light rounded-4 p-3 w-100"></div>
+            <div class="mb-2 bg-light rounded-4 p-3 w-100"></div>
+            <div class="bg-light rounded-4 p-3 w-75"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#problema" class="position-absolute bottom-0 start-50 translate-middle-x mb-4 text-muted scroll-hint text-decoration-none fs-3">⌄</a>
+</header>
+
+<!-- O problema -->
+<section id="problema" class="py-5 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold mb-3">Gerenciar doações manualmente não escala</h2>
+        <p class="fs-5 text-muted">Planilhas espalhadas, mensagens perdidas e falta de visibilidade dificultam saber quem doou, o que falta e quem realmente precisa de ajuda.</p>
+      </div>
+    </div>
+    <div class="row g-5">
+      <div class="col-md-4">
+        <div class="big-index mb-3">01</div>
+        <h3 class="h5 fw-bold">Informação dispersa</h3>
+        <p class="text-muted">Dados de doações espalhados em planilhas, grupos e cadernos, sem um lugar único.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="big-index mb-3">02</div>
+        <h3 class="h5 fw-bold">Pouca transparência</h3>
+        <p class="text-muted">Difícil mostrar para doadores e voluntários para onde as doações realmente vão.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="big-index mb-3">03</div>
+        <h3 class="h5 fw-bold">Conexão manual</h3>
+        <p class="text-muted">Encontrar quem precisa de ajuda e quem pode ajudar depende de contato manual e sorte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- A solução -->
+<section id="solucao" class="py-5 bg-brand-tint bg-opacity-25 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold mb-3">O Doe+ centraliza toda a gestão em um só lugar</h2>
+        <p class="fs-5 text-muted">Uma plataforma única para organizar doações, acompanhar o que entra e sai, e manter organizações, colaboradores e famílias conectados.</p>
+      </div>
+    </div>
+    <div class="row g-5">
+      <div class="col-md-4">
+        <div class="big-index mb-3">01</div>
+        <h3 class="h5 fw-bold">Centralização</h3>
+        <p class="text-muted">Todas as doações e cadastros em um único painel, sempre atualizado.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="big-index mb-3">02</div>
+        <h3 class="h5 fw-bold">Transparência</h3>
+        <p class="text-muted">Histórico claro de doações, facilitando prestação de contas.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="big-index mb-3">03</div>
+        <h3 class="h5 fw-bold">Conexão</h3>
+        <p class="text-muted">Organizações, colaboradores e famílias falando a mesma língua, no mesmo sistema.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Como funciona + demonstração -->
+<section id="como-funciona" class="py-5 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold mb-3">Como funciona</h2>
+        <p class="fs-5 text-muted">Simples de começar, simples de manter.</p>
+      </div>
+    </div>
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5">
+        <div class="d-flex gap-3 mb-5">
+          <div class="fw-bold fs-4 text-primary">1</div>
+          <div>
+            <h3 class="h5 fw-bold mb-1">Cadastre-se</h3>
+            <p class="text-muted mb-0">Crie sua conta e configure sua organização em minutos.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mb-5">
+          <div class="fw-bold fs-4 text-primary">2</div>
+          <div>
+            <h3 class="h5 fw-bold mb-1">Organize as doações</h3>
+            <p class="text-muted mb-0">Registre o que entra e sai, sem depender de planilhas soltas.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mb-5">
+          <div class="fw-bold fs-4 text-primary">3</div>
+          <div>
+            <h3 class="h5 fw-bold mb-1">Conecte pessoas</h3>
+            <p class="text-muted mb-0">Aproxime organizações, colaboradores e famílias atendidas.</p>
+          </div>
+        </div>
+        <div class="d-flex gap-3">
+          <div class="fw-bold fs-4 text-primary">4</div>
+          <div>
+            <h3 class="h5 fw-bold mb-1">Acompanhe pelo dashboard</h3>
+            <p class="text-muted mb-0">Veja tudo organizado em um painel simples e direto.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="mockup-frame bg-white">
+          <div class="mockup-topbar">
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+            <span class="mockup-dot"></span>
+          </div>
+          <div class="p-4 p-lg-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5">Doações recentes</span>
+              <span class="badge bg-brand-navy px-3 py-2">Doe+</span>
+            </div>
+            <div class="mb-2 bg-brand-tint bg-opacity-50 rounded-4 p-3 w-75"></div>
+            <div class="mb-2 bg-light rounded-4 p-3 w-100"></div>
+            <div class="mb-2 bg-light rounded-4 p-3 w-100"></div>
+            <div class="bg-light rounded-4 p-3 w-50"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefícios -->
+<section id="beneficios" class="py-5 bg-brand-tint bg-opacity-25 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold">Benefícios</h2>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Transparência total</h3>
+          <p class="text-muted mb-0">Histórico claro de todas as doações.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Menos trabalho manual</h3>
+          <p class="text-muted mb-0">Menos planilhas, menos retrabalho.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Dados centralizados</h3>
+          <p class="text-muted mb-0">Tudo em um único painel, sempre acessível.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Comunicação facilitada</h3>
+          <p class="text-muted mb-0">Organizações, colaboradores e famílias no mesmo lugar.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Relatórios simples</h3>
+          <p class="text-muted mb-0">Visão clara do que entra e sai.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Acesso de qualquer lugar</h3>
+          <p class="text-muted mb-0">Sistema web, sem instalação.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Para quem é -->
+<section id="publico" class="py-5 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold">Para quem é o Doe+?</h2>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h6 fw-bold">Organizações e ONGs</h3>
+          <p class="text-muted small mb-0">Que precisam organizar e prestar contas das doações recebidas.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h6 fw-bold">Empresas colaboradoras</h3>
+          <p class="text-muted small mb-0">Que apoiam causas e querem acompanhar o impacto gerado.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h6 fw-bold">Voluntários</h3>
+          <p class="text-muted small mb-0">Que ajudam a coordenar a ponte entre doações e quem precisa.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h6 fw-bold">Famílias atendidas</h3>
+          <p class="text-muted small mb-0">Que recebem apoio de forma mais organizada e digna.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Impacto -->
+<section id="impacto" class="py-5 bg-brand-tint bg-opacity-25 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-8">
+        <p class="display-5 fw-bold text-primary mb-4">"Mais transparência, mais confiança, mais impacto real."</p>
+        <p class="fs-5 text-muted">Ao organizar cada doação em um só lugar, o Doe+ ajuda organizações a mostrar com clareza o caminho de cada ajuda recebida — fortalecendo a confiança entre doadores, colaboradores e as famílias atendidas.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h5 fw-bold">Transparência</h3>
+          <p class="text-muted mb-0">Cada doação com origem e destino claros.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h5 fw-bold">Eficiência</h3>
+          <p class="text-muted mb-0">Menos tempo organizando, mais tempo ajudando.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100 text-center">
+          <h3 class="h5 fw-bold">Proximidade</h3>
+          <p class="text-muted mb-0">Organizações, colaboradores e famílias mais conectados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Planos -->
+<section id="planos" class="py-5 section-full">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold">Planos</h2>
+      </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Gratuito</h3>
+          <p class="display-5 fw-bold mb-3">R$ 0</p>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2">1 organização</li>
+            <li class="mb-2">Gestão básica de doações</li>
+            <li class="mb-2">Até 3 colaboradores</li>
+          </ul>
+          <a href="/auth/register" class="btn btn-outline-primary w-100">Começar grátis</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100 position-relative" style="box-shadow: 0 1.5rem 3rem rgba(11,47,102,.16);">
+          <span class="badge bg-primary position-absolute top-0 start-50 translate-middle px-3 py-2">Mais popular</span>
+          <h3 class="h5 fw-bold">Organizações</h3>
+          <p class="display-5 fw-bold mb-3">Sob consulta</p>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2">Colaboradores ilimitados</li>
+            <li class="mb-2">Relatórios de impacto</li>
+            <li class="mb-2">Suporte prioritário</li>
+          </ul>
+          <a href="/auth/register" class="btn btn-primary w-100">Falar com a gente</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="soft-card h-100">
+          <h3 class="h5 fw-bold">Empresarial</h3>
+          <p class="display-5 fw-bold mb-3">Sob consulta</p>
+          <ul class="list-unstyled text-muted mb-4">
+            <li class="mb-2">Múltiplas organizações</li>
+            <li class="mb-2">Integrações personalizadas</li>
+            <li class="mb-2">Gerente de conta dedicado</li>
+          </ul>
+          <a href="/auth/register" class="btn btn-outline-primary w-100">Falar com a gente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="perguntas" class="py-5 bg-brand-tint bg-opacity-25 section-full">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <h2 class="display-6 fw-bold mb-5 text-center">Perguntas frequentes</h2>
+        <div class="accordion" id="faq">
+          <div class="accordion-item faq-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                O Doe+ é gratuito?
+              </button>
+            </h3>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+              <div class="accordion-body text-muted">Sim, o plano Gratuito está disponível para começar a organizar suas doações sem custo.</div>
+            </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                Preciso instalar algo?
+              </button>
+            </h3>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body text-muted">Não, o Doe+ funciona direto no navegador, sem instalação.</div>
+            </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                Posso mudar de plano depois?
+              </button>
+            </h3>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body text-muted">Sim, você pode mudar de plano a qualquer momento conforme a organização cresce.</div>
+            </div>
+          </div>
+          <div class="accordion-item faq-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                Como funciona o suporte?
+              </button>
+            </h3>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faq">
+              <div class="accordion-body text-muted">Nossa equipe está disponível para ajudar organizações a configurar e usar o Doe+.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Final -->
+<section class="py-5 bg-brand-navy text-white section-full">
+  <div class="container text-center">
+    <h2 class="display-4 fw-bold mb-3">Pronto para organizar suas doações?</h2>
+    <p class="fs-4 mb-4 opacity-75">Crie sua conta gratuita e comece a usar o Doe+ hoje mesmo.</p>
+    <a href="/auth/register" class="btn btn-light btn-lg">Criar conta gratuita</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-5 bg-white border-top">
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4">
+      {{ logo_icon(30) }}
+      <div class="d-flex gap-4">
+        <a href="#solucao" class="text-muted text-decoration-none">Solução</a>
+        <a href="#como-funciona" class="text-muted text-decoration-none">Como funciona</a>
+        <a href="#planos" class="text-muted text-decoration-none">Planos</a>
+        <a href="#perguntas" class="text-muted text-decoration-none">FAQ</a>
+      </div>
+      <span class="text-muted small">© 2026 Doe+. Todos os direitos reservados.</span>
+    </div>
+  </div>
+</footer>
+{% endblock %}

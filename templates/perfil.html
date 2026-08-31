@@ -1,0 +1,29 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Perfil da OSC - Doe+{% endblock %}
+
+{% block dashboard_content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="h3 mb-4">Perfil da OSC</h1>
+
+      <form method="post" class="mb-5">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Nome da organização</label>
+          <input type="text" name="organization_name" class="form-control" value="{{ organization.name }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </form>
+
+      <div class="soft-card">
+        <h2 class="h6 fw-bold mb-3">Dados da conta</h2>
+        <p class="mb-1"><span class="text-muted">Responsável:</span> {{ current_user.name }}</p>
+        <p class="mb-1"><span class="text-muted">E-mail:</span> {{ current_user.email }}</p>
+        <p class="mb-0"><span class="text-muted">OSC no Doe+ desde:</span> {{ organization.created_at.strftime('%d/%m/%Y') }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

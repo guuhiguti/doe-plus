@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% from "_macros.html" import logo_icon with context %}
+
+{% block title %}Cadastro de colaborador - {{ organization.name }}{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      {{ logo_icon(40) }}
+    </a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row justify-content-center py-5">
+    <div class="col-md-6">
+      <p class="text-muted mb-1">Formulário de colaborador de</p>
+      <h1 class="h3 fw-bold mb-4">{{ organization.name }}</h1>
+
+      {% if erro %}
+      <div class="alert alert-danger">{{ erro }}</div>
+      {% endif %}
+
+      <div class="soft-card mb-4">
+        <h2 class="h6 fw-bold">Uso dos seus dados</h2>
+        <p class="text-muted small mb-0">
+          Os dados preenchidos abaixo serão utilizados exclusivamente por <strong>{{ organization.name }}</strong> para
+          fins de cadastro de colaboradores e organização de suas atividades. Seus dados não serão compartilhados
+          com terceiros sem o seu consentimento.
+        </p>
+      </div>
+
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" name="email" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Telefone</label>
+          <input type="text" name="phone" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Área / disponibilidade</label>
+          <input type="text" name="area" class="form-control" placeholder="Ex: logística, transporte, finais de semana">
+        </div>
+
+        <hr class="my-4">
+        <div class="mb-3">
+          <label class="form-label">O que você quer oferecer?</label>
+          <select name="offer_type" class="form-select" id="offer_type" onchange="alternarTipo()">
+            <option value="item">Itens para doação</option>
+            <option value="tempo_voluntario">Tempo voluntário</option>
+          </select>
+        </div>
+
+        <div id="campos-item">
+          <div class="mb-3">
+            <label class="form-label">Item</label>
+            <select name="item_id" class="form-select">
+              {% for categoria, items in por_categoria.items() %}
+              <optgroup label="{{ categoria }}">
+                {% for item in items %}
+                <option value="{{ item.id }}">{{ item.name }}</option>
+                {% endfor %}
+              </optgroup>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantidade</label>
+            <input type="number" name="quantity" class="form-control" min="1" value="1">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Observações (opcional)</label>
+          <textarea name="notes" class="form-control" rows="2" placeholder="Ex: disponível aos sábados de manhã"></textarea>
+        </div>
+
+        <div class="form-check mb-4">
+          <input type="checkbox" name="consentimento" class="form-check-input" id="consentimento" required>
+          <label class="form-check-label small" for="consentimento">
+            Li e concordo com o uso dos meus dados conforme descrito acima.
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Enviar cadastro</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function alternarTipo() {
+  const tipo = document.getElementById('offer_type').value;
+  document.getElementById('campos-item').style.display = tipo === 'item' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

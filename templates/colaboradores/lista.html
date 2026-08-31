@@ -1,0 +1,50 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Colaboradores - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Colaboradores</h1>
+    <a href="{{ url_for('colaboradores.novo') }}" class="btn btn-primary">+ Novo colaborador</a>
+  </div>
+
+  {% if collaborators %}
+  <div class="table-responsive soft-card p-0">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>Área</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in collaborators %}
+        <tr>
+          <td>{{ c.name }}</td>
+          <td>{{ c.email or '-' }}</td>
+          <td>{{ c.phone or '-' }}</td>
+          <td>{{ c.area or '-' }}</td>
+          <td class="text-end">
+            <a href="{{ url_for('colaboradores.editar', collaborator_id=c.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+            <form method="post" action="{{ url_for('colaboradores.excluir', collaborator_id=c.id) }}" class="d-inline" onsubmit="return confirm('Remover este colaborador?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="soft-card text-center text-muted">
+    Nenhum colaborador cadastrado ainda.
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

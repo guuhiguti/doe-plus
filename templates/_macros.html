@@ -1,0 +1,5 @@
+{% macro logo_icon(size=40) %}
+{% set escuro = current_user.is_authenticated and current_user.theme == 'escuro' %}
+{% set arquivo = 'doe_plus_icon_white_transparent.png' if escuro else 'doe_plus_icon_navy_transparent.png' %}
+<img src="{{ url_for('static', filename='img/' + arquivo) }}" alt="Doe+" height="{{ size }}" class="logo-icon">
+{% endmacro %}
