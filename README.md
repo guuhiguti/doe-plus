@@ -1,6 +1,6 @@
 # Doe+
 
-**Autor:** Gustavo Higuti
+**Responsável:** Gustavo Higuti (pessoa física)
 
 Plataforma web para OSCs (Organizações da Sociedade Civil) gerenciarem doações: conecta **colaboradores** que oferecem itens ou tempo voluntário com **pedidos de ajuda**, sugerindo e confirmando "matches" entre oferta e demanda.
 
@@ -85,4 +85,4 @@ uv run flask db upgrade
 
 ## Licença
 
-Copyright (c) 2026 Gustavo Higuti. Todos os direitos reservados — veja [LICENSE](LICENSE).
+Copyright (c) 2026 Doe+ — Gustavo Higuti. Todos os direitos reservados — veja [LICENSE](LICENSE).
