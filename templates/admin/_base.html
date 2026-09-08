@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import logo_icon with context %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('admin.painel') }}">{{ logo_icon(44) }}</a>
+    <span class="navbar-text ms-2 fw-semibold d-none d-sm-inline">Painel administrativo</span>
+    <div class="ms-auto d-flex gap-2">
+      <a href="{{ url_for('admin.painel') }}"
+         class="btn btn-sm {{ 'btn-primary' if request.endpoint == 'admin.painel' else 'btn-outline-secondary' }}">Instituições</a>
+      <a href="{{ url_for('admin.usuarios') }}"
+         class="btn btn-sm {{ 'btn-primary' if request.endpoint and request.endpoint.startswith('admin.usuario') else 'btn-outline-secondary' }}">Usuários</a>
+      <a href="{{ url_for('admin.logout') }}" class="btn btn-sm btn-outline-secondary">Sair</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+  {% block admin_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

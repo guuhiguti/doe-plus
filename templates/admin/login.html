@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "_macros.html" import logo_icon with context %}
+
+{% block title %}Painel administrativo - Doe+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      {{ logo_icon(44) }}
+    </a>
+  </div>
+</nav>
+<div class="container">
+  <div class="row justify-content-center py-5 my-5">
+    <div class="col-md-4">
+      <h1 class="h3 mb-4 text-center">Painel administrativo</h1>
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Senha de administrador</label>
+          <input type="password" name="password" class="form-control" required autofocus>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

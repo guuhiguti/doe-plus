@@ -1,0 +1,85 @@
+{% extends "admin/_base.html" %}
+
+{% block title %}Instituições - Painel administrativo{% endblock %}
+
+{% set badge = {
+  'ativa': 'bg-success',
+  'ociosa': 'bg-warning text-dark',
+  'inativa': 'bg-danger',
+  'sem uso': 'bg-secondary',
+} %}
+
+{% block admin_content %}
+<h1 class="h4 mb-1">Instituições cadastradas</h1>
+<p class="text-muted">
+  {{ resumo.total }} no total &middot; classificação pelo último acesso ou lançamento de dados
+  (ativa &le; 14d, ociosa &le; 60d).
+</p>
+
+<div class="row g-2 mb-4">
+  {% for chave, rotulo in [('ativa', 'Ativas'), ('ociosa', 'Ociosas'), ('inativa', 'Inativas'), ('sem uso', 'Sem uso')] %}
+  <div class="col-6 col-lg-3">
+    <div class="border rounded p-3">
+      <span class="badge {{ badge[chave] }} mb-2">{{ rotulo }}</span>
+      <div class="fs-4 fw-bold">{{ resumo[chave] }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr>
+        <th>Instituição</th>
+        <th>Status</th>
+        <th class="text-end">Usuários</th>
+        <th class="text-end">Colab.</th>
+        <th class="text-end">Pedidos</th>
+        <th class="text-end">Ofertas</th>
+        <th>Cadastrada em</th>
+        <th>Último login</th>
+        <th>Última atividade</th>
+        <th class="text-end">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linha in linhas %}
+      <tr>
+        <td class="fw-semibold">
+          <a href="{{ url_for('admin.usuarios', org=linha.org.id) }}" class="text-decoration-none">{{ linha.org.name }}</a>
+        </td>
+        <td><span class="badge {{ badge[linha.status] }}">{{ linha.status }}</span></td>
+        <td class="text-end">{{ linha.usuarios }}</td>
+        <td class="text-end">{{ linha.colaboradores }}</td>
+        <td class="text-end">{{ linha.pedidos }}</td>
+        <td class="text-end">{{ linha.ofertas }}</td>
+        <td class="text-muted small">{{ linha.org.created_at.strftime('%d/%m/%Y') }}</td>
+        <td class="text-muted small">
+          {{ linha.ultimo_login.strftime('%d/%m/%Y') if linha.ultimo_login else '—' }}
+        </td>
+        <td class="small">
+          {% if linha.ultima_atividade %}
+            {% set dias = (agora - linha.ultima_atividade).days %}
+            {{ linha.ultima_atividade.strftime('%d/%m/%Y') }}
+            <span class="text-muted">({{ 'hoje' if dias == 0 else 'há %d dia(s)' % dias }})</span>
+          {% else %}
+            <span class="text-muted">nunca</span>
+          {% endif %}
+        </td>
+        <td class="text-end text-nowrap">
+          <a href="{{ url_for('admin.usuarios', org=linha.org.id) }}" class="btn btn-outline-secondary btn-sm">Usuários</a>
+          <form method="post" action="{{ url_for('admin.instituicao_excluir', org_id=linha.org.id) }}" class="d-inline"
+                onsubmit="return confirm('Excluir a instituição &quot;{{ linha.org.name }}&quot; e TODOS os seus dados (usuários, colaboradores, pedidos, ofertas)? Esta ação não pode ser desfeita.');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-outline-danger btn-sm">Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="10" class="text-center text-muted py-4">Nenhuma instituição cadastrada.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

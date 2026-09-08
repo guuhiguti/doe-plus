@@ -1,0 +1,61 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Equipe - Doe+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h1 class="h3 mb-0">Equipe</h1>
+    {% if current_user.is_owner %}
+    <a href="{{ url_for('equipe.novo') }}" class="btn btn-primary">+ Novo membro</a>
+    {% endif %}
+  </div>
+  <p class="text-muted mb-4">
+    Pessoas que podem acessar o painel de {{ current_user.organization.name }}.
+    {% if not current_user.is_owner %}
+    Somente o responsável pela instituição pode adicionar, editar ou remover membros.
+    {% endif %}
+  </p>
+
+  <div class="table-responsive soft-card p-0">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Adicionado em</th>
+          <th>Último acesso</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in membros %}
+        <tr>
+          <td>
+            {{ m.name }}
+            {% if m.is_owner %}<span class="badge bg-primary ms-1">responsável</span>{% endif %}
+            {% if m.id == current_user.id %}<span class="badge bg-secondary ms-1">você</span>{% endif %}
+          </td>
+          <td>{{ m.email }}</td>
+          <td class="text-muted small">{{ m.created_at.strftime('%d/%m/%Y') }}</td>
+          <td class="text-muted small">{{ m.last_login_at.strftime('%d/%m/%Y %H:%M') if m.last_login_at else 'nunca' }}</td>
+          <td class="text-end text-nowrap">
+            {% if current_user.is_owner or m.id == current_user.id %}
+            <a href="{{ url_for('equipe.editar', user_id=m.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+            {% endif %}
+            {% if current_user.is_owner and not m.is_owner %}
+            <form method="post" action="{{ url_for('equipe.excluir', user_id=m.id) }}" class="d-inline"
+                  onsubmit="return confirm('Remover {{ m.name }} da equipe? A pessoa perde o acesso ao painel.');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

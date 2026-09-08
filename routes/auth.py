@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
 
 from extensions import db
-from models import DEFAULT_CATALOG, CatalogItem, Organization, User
+from models import DEFAULT_CATALOG, CatalogItem, Organization, User, _now
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -19,6 +19,8 @@ def login():
             return render_template("auth/login.html", email=email)
 
         login_user(user)
+        user.last_login_at = _now()
+        db.session.commit()
         return redirect(url_for("main.dashboard"))
 
     return render_template("auth/login.html")
@@ -48,7 +50,7 @@ def register():
         for category, item_name in DEFAULT_CATALOG:
             db.session.add(CatalogItem(organization_id=organization.id, category=category, name=item_name))
 
-        user = User(organization_id=organization.id, name=name, email=email)
+        user = User(organization_id=organization.id, name=name, email=email, is_owner=True)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()

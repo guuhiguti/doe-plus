@@ -453,3 +453,44 @@ h1, h2, h3, h4, h5, h6 {
   --bs-btn-active-border-color: #7dbcea;
   --bs-btn-active-color: #0f1115;
 }
+
+/* Botão "mostrar/ocultar senha" (adicionado via JS em base.html) */
+.pw-wrap {
+  position: relative;
+}
+
+.pw-wrap .form-control {
+  padding-right: 2.75rem;
+}
+
+.pw-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--bs-secondary-color, #6c757d);
+  cursor: pointer;
+}
+
+.pw-toggle:hover {
+  color: var(--bs-body-color, #212529);
+}
+
+.pw-toggle .pw-eye-off {
+  display: none;
+}
+
+.pw-toggle.is-visible .pw-eye {
+  display: none;
+}
+
+.pw-toggle.is-visible .pw-eye-off {
+  display: inline;
+}

@@ -44,6 +44,9 @@ Plataforma web para OSCs (Organizações da Sociedade Civil) gerenciarem doaçõ
 
    - `DATABASE_URL`: string de conexão do Postgres (ex.: `postgresql+psycopg://postgres:senha@localhost:5432/doeplus`)
    - `SECRET_KEY`: gere com `python -c "import secrets; print(secrets.token_hex(32))"`
+   - `ADMIN_PASSWORD_HASH`: senha do painel administrativo (`/admin`), como hash. Gere com
+     `python -c "from werkzeug.security import generate_password_hash; print(generate_password_hash('SUA_SENHA'))"`
+   - `SESSION_COOKIE_SECURE`: defina como `true` em produção (HTTPS)
 
 3. Crie o banco de dados (se ainda não existir) e aplique as migrações:
 
@@ -68,11 +71,36 @@ extensions.py        # instâncias de db, login_manager e csrf
 models.py            # modelos SQLAlchemy (Organization, User, Collaborator, CatalogItem, HelpRequest, Offer)
 matching.py          # lógica de sugestão e confirmação de matches
 analytics.py         # cálculo de estatísticas do dashboard por período
-routes/              # blueprints (auth, main, colaboradores, itens, pedidos, matches, relatorios, public_forms)
+routes/              # blueprints (auth, admin, main, colaboradores, equipe, itens, pedidos, matches, relatorios, public_forms)
+usuarios.py          # validação compartilhada de dados de usuário
 templates/           # templates Jinja2
 static/              # CSS e imagens
 migrations/          # migrações Alembic geradas pelo Flask-Migrate
 ```
+
+## Painel administrativo
+
+Acesse `/admin` e informe a senha definida em `ADMIN_PASSWORD_HASH`. A tela lista todas as
+instituições cadastradas com o número de usuários, colaboradores, pedidos e ofertas, o último
+login e a última atividade, classificando cada uma como **ativa**, **ociosa**, **inativa** ou
+**sem uso** conforme a data mais recente de acesso ou lançamento de dados. É independente do
+login das OSCs (usa apenas a sessão de administrador).
+
+Em `/admin/usuarios` há um CRUD dos usuários (criar, editar, redefinir senha, excluir),
+com filtro por instituição. Na tela de Instituições, a ação **Excluir** apaga a instituição
+e, em cascata, todos os usuários, colaboradores, pedidos e ofertas vinculados.
+
+Cada instituição gerencia a própria equipe em **Dashboard → Equipe**
+(`/dashboard/equipe`). Cada instituição tem um **responsável** (`User.is_owner`) — quem
+criou a conta. Regras:
+
+- Só o responsável adiciona, edita ou remove membros.
+- Os demais membros veem a lista e editam apenas os próprios dados (nome, e-mail, senha).
+- O responsável não pode ser removido nem editado por outro membro (apenas por ele mesmo
+  ou pelo painel admin).
+
+No painel admin, o formulário de usuário tem a opção **Responsável pela instituição**, que
+transfere o papel (removendo de quem o tinha).
 
 ## Migrações
 

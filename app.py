@@ -4,8 +4,10 @@ from flask_migrate import Migrate
 from config import Config
 from extensions import csrf, db, login_manager
 import models  # noqa: F401 ensures models are registered before migrations
+from routes.admin import admin_blueprint
 from routes.auth import auth_blueprint
 from routes.colaboradores import colaboradores_blueprint
+from routes.equipe import equipe_blueprint
 from routes.itens import itens_blueprint
 from routes.main import main_blueprint
 from routes.matches import matches_blueprint
@@ -32,12 +34,14 @@ def load_user(user_id):
 
 app.register_blueprint(main_blueprint, url_prefix="/")
 app.register_blueprint(auth_blueprint, url_prefix="/auth")
+app.register_blueprint(admin_blueprint, url_prefix="/admin")
 app.register_blueprint(colaboradores_blueprint, url_prefix="/dashboard/colaboradores")
 app.register_blueprint(pedidos_blueprint, url_prefix="/dashboard/pedidos")
 app.register_blueprint(public_forms_blueprint, url_prefix="/formulario")
 app.register_blueprint(relatorios_blueprint, url_prefix="/dashboard/relatorio")
 app.register_blueprint(itens_blueprint, url_prefix="/dashboard/itens")
 app.register_blueprint(matches_blueprint, url_prefix="/dashboard/cruzamentos")
+app.register_blueprint(equipe_blueprint, url_prefix="/dashboard/equipe")
 
 if __name__ == "__main__":
     app.run(debug=True)
