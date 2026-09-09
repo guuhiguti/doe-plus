@@ -286,12 +286,16 @@ h1, h2, h3, h4, h5, h6 {
   .dash-shell.mobile-open .dash-sidebar {
     left: 0;
   }
+  /* O modo "recolhido" é só do desktop; no mobile a barra abre inteira. */
   .dash-shell.collapsed .dash-sidebar {
     width: 240px;
   }
   .dash-shell.collapsed .dash-label,
   .dash-shell.collapsed .dash-logo-text {
     display: inline;
+  }
+  .dash-shell.collapsed .dash-sidebar-top {
+    align-items: flex-start;
   }
   .dash-shell.mobile-open .dash-backdrop {
     display: block;

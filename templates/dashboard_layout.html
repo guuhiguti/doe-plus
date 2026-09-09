@@ -81,6 +81,12 @@
 
 function toggleSidebar() {
   const shell = document.getElementById('dash-shell');
+  // No mobile a barra abre sobreposta; o mesmo botão serve para fechá-la
+  // em vez de acionar o modo "recolhido" (que só faz sentido no desktop).
+  if (shell.classList.contains('mobile-open')) {
+    shell.classList.remove('mobile-open');
+    return;
+  }
   shell.classList.toggle('collapsed');
   localStorage.setItem('doeplus_sidebar_collapsed', shell.classList.contains('collapsed') ? '1' : '0');
 }
