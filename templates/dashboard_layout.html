@@ -3,6 +3,16 @@
 
 {% block content %}
 <div class="dash-shell" id="dash-shell">
+  <div class="dash-mobilebar">
+    <button type="button" class="dash-toggle" onclick="openMobileSidebar()" aria-label="Abrir menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <a href="{{ url_for('main.dashboard') }}" class="d-flex align-items-center text-decoration-none">
+      {{ logo_icon(28) }}
+    </a>
+  </div>
+  <div class="dash-backdrop" onclick="closeMobileSidebar()" aria-hidden="true"></div>
+
   <aside class="dash-sidebar">
     <div class="dash-sidebar-top">
       <a href="{{ url_for('main.dashboard') }}" class="d-flex align-items-center text-decoration-none">
@@ -73,6 +83,14 @@ function toggleSidebar() {
   const shell = document.getElementById('dash-shell');
   shell.classList.toggle('collapsed');
   localStorage.setItem('doeplus_sidebar_collapsed', shell.classList.contains('collapsed') ? '1' : '0');
+}
+
+function openMobileSidebar() {
+  document.getElementById('dash-shell').classList.add('mobile-open');
+}
+
+function closeMobileSidebar() {
+  document.getElementById('dash-shell').classList.remove('mobile-open');
 }
 </script>
 {% endblock %}
