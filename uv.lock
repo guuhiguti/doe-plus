@@ -59,6 +59,7 @@ dependencies = [
     { name = "gunicorn" },
     { name = "psycopg", extra = ["binary"] },
     { name = "python-dotenv" },
+    { name = "tzdata" },
 ]
 
 [package.metadata]
@@ -71,6 +72,7 @@ requires-dist = [
     { name = "gunicorn", specifier = ">=26.2.0" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "tzdata", specifier = ">=2026.3" },
 ]
 
 [[package]]

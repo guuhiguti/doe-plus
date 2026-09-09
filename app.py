@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from config import Config
 from extensions import csrf, db, login_manager
 import models  # noqa: F401 ensures models are registered before migrations
+from timezones import formatar as _formatar_brasilia
 from routes.admin import admin_blueprint
 from routes.auth import auth_blueprint
 from routes.colaboradores import colaboradores_blueprint
@@ -23,6 +24,24 @@ migrate = Migrate(app, db)
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 csrf.init_app(app)
+
+
+@app.template_filter("data")
+def _filtro_data(dt):
+    """dd/mm/aaaa no horário de Brasília."""
+    return _formatar_brasilia(dt, "%d/%m/%Y")
+
+
+@app.template_filter("data_hora")
+def _filtro_data_hora(dt):
+    """dd/mm/aaaa hh:mm no horário de Brasília."""
+    return _formatar_brasilia(dt, "%d/%m/%Y %H:%M")
+
+
+@app.template_filter("data_iso")
+def _filtro_data_iso(dt):
+    """aaaa-mm-dd no horário de Brasília (para <input type=\"date\">)."""
+    return _formatar_brasilia(dt, "%Y-%m-%d")
 
 
 @login_manager.user_loader

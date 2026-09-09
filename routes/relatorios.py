@@ -6,6 +6,7 @@ from flask import Blueprint, Response, abort, render_template, request
 from flask_login import current_user, login_required
 
 from models import Collaborator, HelpRequest
+from timezones import formatar as formatar_brasilia
 
 relatorios_blueprint = Blueprint("relatorios", __name__)
 
@@ -46,12 +47,12 @@ def csv_export():
     if tipo == "colaboradores":
         writer.writerow(["Nome", "E-mail", "Telefone", "Área", "Cadastrado em"])
         for c in Collaborator.query.filter_by(organization_id=current_user.organization_id):
-            writer.writerow([c.name, c.email, c.phone, c.area, c.created_at])
+            writer.writerow([c.name, c.email, c.phone, c.area, formatar_brasilia(c.created_at)])
     elif tipo == "pedidos":
         writer.writerow(["Solicitante", "Contato", "Item", "Quantidade", "Descrição", "Status", "Criado em"])
         for p in HelpRequest.query.filter_by(organization_id=current_user.organization_id):
             writer.writerow(
-                [p.requester_name, p.contact, f"{p.item.category} — {p.item.name}", p.quantity, p.description, p.status, p.created_at]
+                [p.requester_name, p.contact, f"{p.item.category} — {p.item.name}", p.quantity, p.description, p.status, formatar_brasilia(p.created_at)]
             )
     else:
         abort(400)

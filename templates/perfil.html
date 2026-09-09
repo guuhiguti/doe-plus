@@ -21,7 +21,7 @@
         <h2 class="h6 fw-bold mb-3">Dados da conta</h2>
         <p class="mb-1"><span class="text-muted">Responsável:</span> {{ current_user.name }}</p>
         <p class="mb-1"><span class="text-muted">E-mail:</span> {{ current_user.email }}</p>
-        <p class="mb-0"><span class="text-muted">OSC no Doe+ desde:</span> {{ organization.created_at.strftime('%d/%m/%Y') }}</p>
+        <p class="mb-0"><span class="text-muted">OSC no Doe+ desde:</span> {{ organization.created_at | data }}</p>
       </div>
     </div>
   </div>

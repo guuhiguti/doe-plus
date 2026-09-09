@@ -54,14 +54,14 @@
         <td class="text-end">{{ linha.colaboradores }}</td>
         <td class="text-end">{{ linha.pedidos }}</td>
         <td class="text-end">{{ linha.ofertas }}</td>
-        <td class="text-muted small">{{ linha.org.created_at.strftime('%d/%m/%Y') }}</td>
+        <td class="text-muted small">{{ linha.org.created_at | data }}</td>
         <td class="text-muted small">
-          {{ linha.ultimo_login.strftime('%d/%m/%Y') if linha.ultimo_login else '—' }}
+          {{ linha.ultimo_login | data if linha.ultimo_login else '—' }}
         </td>
         <td class="small">
           {% if linha.ultima_atividade %}
             {% set dias = (agora - linha.ultima_atividade).days %}
-            {{ linha.ultima_atividade.strftime('%d/%m/%Y') }}
+            {{ linha.ultima_atividade | data }}
             <span class="text-muted">({{ 'hoje' if dias == 0 else 'há %d dia(s)' % dias }})</span>
           {% else %}
             <span class="text-muted">nunca</span>

@@ -26,11 +26,11 @@
       <input type="hidden" name="periodo" value="personalizado">
       <div>
         <label class="form-label small mb-1">De</label>
-        <input type="date" name="inicio" class="form-control form-control-sm" value="{{ inicio.strftime('%Y-%m-%d') }}">
+        <input type="date" name="inicio" class="form-control form-control-sm" value="{{ inicio | data_iso }}">
       </div>
       <div>
         <label class="form-label small mb-1">Até</label>
-        <input type="date" name="fim" class="form-control form-control-sm" value="{{ fim.strftime('%Y-%m-%d') }}">
+        <input type="date" name="fim" class="form-control form-control-sm" value="{{ fim | data_iso }}">
       </div>
       <button type="submit" class="btn btn-sm btn-primary">Aplicar</button>
     </form>

@@ -41,8 +41,8 @@
         </td>
         <td>{{ u.email }}</td>
         <td>{{ u.organization.name }}</td>
-        <td class="text-muted small">{{ u.created_at.strftime('%d/%m/%Y') }}</td>
-        <td class="text-muted small">{{ u.last_login_at.strftime('%d/%m/%Y %H:%M') if u.last_login_at else 'nunca' }}</td>
+        <td class="text-muted small">{{ u.created_at | data }}</td>
+        <td class="text-muted small">{{ u.last_login_at | data_hora if u.last_login_at else 'nunca' }}</td>
         <td class="text-end text-nowrap">
           <a href="{{ url_for('admin.usuario_editar', user_id=u.id) }}" class="btn btn-outline-secondary btn-sm">Editar</a>
           <form method="post" action="{{ url_for('admin.usuario_excluir', user_id=u.id) }}" class="d-inline"

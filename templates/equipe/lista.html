@@ -38,8 +38,8 @@
             {% if m.id == current_user.id %}<span class="badge bg-secondary ms-1">você</span>{% endif %}
           </td>
           <td>{{ m.email }}</td>
-          <td class="text-muted small">{{ m.created_at.strftime('%d/%m/%Y') }}</td>
-          <td class="text-muted small">{{ m.last_login_at.strftime('%d/%m/%Y %H:%M') if m.last_login_at else 'nunca' }}</td>
+          <td class="text-muted small">{{ m.created_at | data }}</td>
+          <td class="text-muted small">{{ m.last_login_at | data_hora if m.last_login_at else 'nunca' }}</td>
           <td class="text-end text-nowrap">
             {% if current_user.is_owner or m.id == current_user.id %}
             <a href="{{ url_for('equipe.editar', user_id=m.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>

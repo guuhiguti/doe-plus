@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <p class="text-muted">Gerado em {{ gerado_em.strftime('%d/%m/%Y %H:%M') }} UTC — {{ current_user.organization.name }}</p>
+  <p class="text-muted">Gerado em {{ gerado_em | data_hora }} (horário de Brasília) — {{ current_user.organization.name }}</p>
 
   <div class="row g-3 mb-5">
     <div class="col-md-4">

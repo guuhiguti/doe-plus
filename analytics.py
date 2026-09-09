@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 from extensions import db
 from models import CatalogItem, Collaborator, HelpRequest
+from timezones import TZ_BRASILIA, agora_brasilia, to_brasilia
 
 PERIODOS_VALIDOS = {"hoje", "mes", "90dias", "tudo", "personalizado"}
 
@@ -15,8 +16,13 @@ PERIODO_LABELS = {
 
 
 def resolver_periodo(periodo, inicio_str=None, fim_str=None, org_created_at=None):
-    """Retorna (periodo_normalizado, inicio, fim) como datetimes com timezone UTC."""
-    agora = datetime.now(timezone.utc)
+    """Retorna (periodo_normalizado, inicio, fim) como datetimes aware.
+
+    Os limites de dia/mês seguem o horário de Brasília (padrão de Campinas/
+    São Paulo); as datas armazenadas em UTC são comparadas corretamente por
+    serem todas timezone-aware.
+    """
+    agora = agora_brasilia()
     fim = agora
 
     if periodo == "hoje":
@@ -27,9 +33,9 @@ def resolver_periodo(periodo, inicio_str=None, fim_str=None, org_created_at=None
         inicio = org_created_at or (agora - timedelta(days=3650))
     elif periodo == "personalizado" and inicio_str and fim_str:
         try:
-            inicio = datetime.strptime(inicio_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+            inicio = datetime.strptime(inicio_str, "%Y-%m-%d").replace(tzinfo=TZ_BRASILIA)
             fim = datetime.strptime(fim_str, "%Y-%m-%d").replace(
-                hour=23, minute=59, second=59, tzinfo=timezone.utc
+                hour=23, minute=59, second=59, tzinfo=TZ_BRASILIA
             )
         except ValueError:
             periodo, inicio, fim = "mes", _inicio_mes(agora), agora
@@ -53,6 +59,7 @@ def _granularidade(inicio, fim):
 
 
 def _bucket_key(dt, granularidade):
+    dt = to_brasilia(dt)
     if granularidade == "dia":
         return dt.date()
     if granularidade == "semana":
